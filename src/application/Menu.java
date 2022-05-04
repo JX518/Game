@@ -19,7 +19,6 @@ public class Menu extends BlankPane{
 //	private Rectangle settings;
 	private Rectangle load;
 
-
 	public Menu() {
 		super.gameCanvas.setStyle("-fx-background-color: #87CEEB;");
 
@@ -29,7 +28,7 @@ public class Menu extends BlankPane{
 		title.setY(100);
 
 		play = new Rectangle(55,160,100,50);
-		play.setStroke(Color.BLACK);
+		play.setStroke(Color.RED);
 		play.setStrokeWidth(1);
 		play.setFill(Color.TRANSPARENT);
 		play.setOnMouseEntered(new PlayHandler());
