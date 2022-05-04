@@ -28,7 +28,7 @@ public class Menu extends BlankPane{
 		title.setY(100);
 
 		play = new Rectangle(55,160,100,50);
-		play.setStroke(Color.PINK);
+		play.setStroke(Color.ORANGE);
 		play.setStrokeWidth(1);
 		play.setFill(Color.TRANSPARENT);
 		play.setOnMouseEntered(new PlayHandler());
