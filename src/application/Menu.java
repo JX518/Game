@@ -17,7 +17,7 @@ public class Menu extends BlankPane{
 	private Rectangle play;
 //	private Rectangle quit;
 //	private Rectangle settings;
-	private Rectangle load;
+//	private Rectangle load;
 
 	public Menu() {
 		super.gameCanvas.setStyle("-fx-background-color: #87CEEB;");
@@ -33,6 +33,7 @@ public class Menu extends BlankPane{
 		play.setFill(Color.TRANSPARENT);
 		play.setOnMouseEntered(new PlayHandler());
 		play.setOnMouseExited(new PlayHandler());
+		play.setOnMouseClicked(new PlayHandler());
 
 		playTxt = new Text("Play");
 		playTxt.setFont(Font.font("Calibri", 50));
@@ -53,7 +54,6 @@ public class Menu extends BlankPane{
 
 		gameCanvas.getChildren().addAll(title, playTxt);
 		gameCanvas.getChildren().addAll(play);
-//		play.setOnMouseClicked();
 	}
 	
 	private class PlayHandler implements EventHandler<MouseEvent> {
