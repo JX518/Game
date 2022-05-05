@@ -20,7 +20,7 @@ public class BlankPane extends BorderPane {
 
         this.setCenter(gameCanvas);
     }
-//	public void setGameCanvas(Pane pane) {
-//		gameCanvas = pane;
-//	}
+	public void setGameCanvas(Pane pane) {
+		gameCanvas = pane;
+	}
 }
