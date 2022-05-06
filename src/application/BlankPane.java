@@ -1,14 +1,17 @@
 package application;
 
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 public class BlankPane extends BorderPane {
 
 	protected Pane gameCanvas;
+	protected Scene scene;
 
-	public BlankPane() {
+	public BlankPane(Scene scene) {
         gameCanvas = new Pane();
+        this.scene = scene;
 
         //set background colors
         gameCanvas.setStyle("-fx-background-color: #000000;");
@@ -26,4 +29,7 @@ public class BlankPane extends BorderPane {
 		this.setCenter(pane);
 	}
 	
+	public Scene getGameScene() {
+		return this.scene;
+	}
 }

@@ -10,7 +10,6 @@ public class Main extends Application
     private static final int WINSIZE_X = 800, WINSIZE_Y = 600;
     private final String WINTITLE = "Game";
     private Stage stage;
-    private Scene scene;
     
 
     @Override
@@ -21,11 +20,8 @@ public class Main extends Application
         Scene scene = new Scene(rootPane, WINSIZE_X, WINSIZE_Y, Color.BLACK);
         stage.setTitle(WINTITLE);
         stage.setScene(scene);
+        rootPane.menuScene(scene);
         stage.show();
-    }
-
-    public Scene getScene(){
-    	return scene;
     }
     
     public void setScene(Scene scene){

@@ -2,6 +2,7 @@ package application;
 
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -19,8 +20,10 @@ public class Menu extends BlankPane{
 	private Rectangle quit;
 	private Rectangle settings;
 	private Rectangle load;
-
+	private Scene scene;
+	
 	public Menu() {
+		super(null);
 		super.gameCanvas.setId("Menu");
 		super.gameCanvas.getStylesheets().add(String.valueOf(this.getClass().getResource("application.css")));
 
@@ -39,9 +42,7 @@ public class Menu extends BlankPane{
 		play.setStroke(Color.TRANSPARENT);
 		play.setStrokeWidth(1);
 		play.setFill(Color.TRANSPARENT);
-		play.setOnMouseEntered(new PlayHandler());
-		play.setOnMouseExited(new PlayHandler());
-		play.setOnMouseClicked(new PlayHandler());
+		play.addEventHandler(MouseEvent.ANY, new PlayHandler());
 		
 		loadTxt = new Text("Load");
 		loadTxt.setFont(Font.font("Calibri", 50));
@@ -52,9 +53,7 @@ public class Menu extends BlankPane{
 		load.setStroke(Color.TRANSPARENT);
 		load.setStrokeWidth(1);
 		load.setFill(Color.TRANSPARENT);
-		load.setOnMouseEntered(new LoadHandler());
-		load.setOnMouseExited(new LoadHandler());
-		load.setOnMouseClicked(new LoadHandler());
+		load.addEventHandler(MouseEvent.ANY, new LoadHandler());
 
 		settingsTxt = new Text("Settings");
 		settingsTxt.setFont(Font.font("Calibri", 50));
@@ -65,9 +64,7 @@ public class Menu extends BlankPane{
 		settings.setStroke(Color.TRANSPARENT);
 		settings.setStrokeWidth(1);
 		settings.setFill(Color.TRANSPARENT);
-		settings.setOnMouseEntered(new SettingsHandler());
-		settings.setOnMouseExited(new SettingsHandler());
-		settings.setOnMouseClicked(new SettingsHandler());
+		settings.addEventHandler(MouseEvent.ANY, new SettingsHandler());
 
 		quitTxt = new Text("Quit");
 		quitTxt.setFont(Font.font("Calibri", 50));
@@ -78,12 +75,14 @@ public class Menu extends BlankPane{
 		quit.setStroke(Color.TRANSPARENT);
 		quit.setStrokeWidth(1);
 		quit.setFill(Color.TRANSPARENT);
-		quit.setOnMouseEntered(new QuitHandler());
-		quit.setOnMouseExited(new QuitHandler());
-		quit.setOnMouseClicked(new QuitHandler());
-
+		quit.addEventHandler(MouseEvent.ANY, new QuitHandler());
+		
 		gameCanvas.getChildren().addAll(title, playTxt, loadTxt, settingsTxt, quitTxt);
 		gameCanvas.getChildren().addAll(play, load, settings, quit);
+	}
+	
+	public void menuScene(Scene scene) {
+		this.scene = scene;
 	}
 	
 	private class PlayHandler implements EventHandler<MouseEvent> {
@@ -97,7 +96,7 @@ public class Menu extends BlankPane{
 				playTxt.setFill(Color.BLACK);
 			}
 			if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
-				setGameCanvas(new LevelSelect());
+				setGameCanvas(new LevelSelect(scene));
 			}
 		}
 	}
