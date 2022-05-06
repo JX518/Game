@@ -9,7 +9,9 @@ public class Main extends Application
 {
     private static final int WINSIZE_X = 800, WINSIZE_Y = 600;
     private final String WINTITLE = "Game";
-    Stage stage;
+    private Stage stage;
+    private Scene scene;
+    
 
     @Override
     public void start(Stage stage) throws Exception
@@ -22,6 +24,10 @@ public class Main extends Application
         stage.show();
     }
 
+    public Scene getScene(){
+    	return scene;
+    }
+    
     public void setScene(Scene scene){
     	stage.setScene(scene);
     }
