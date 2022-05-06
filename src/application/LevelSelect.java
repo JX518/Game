@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 
 public class LevelSelect extends BlankPane{
 	
-	Rectangle lvl1;
+	private Rectangle lvl1;
 	
 	public LevelSelect() {
 		super.gameCanvas.setId("LevelSelect");

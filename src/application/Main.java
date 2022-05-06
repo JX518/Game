@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application
 {
-    public static final int WINSIZE_X = 800, WINSIZE_Y = 600;
+    private static final int WINSIZE_X = 800, WINSIZE_Y = 600;
     private final String WINTITLE = "Game";
     Stage stage;
 
