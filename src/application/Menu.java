@@ -10,16 +10,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class Menu extends BlankPane{
-	private Text title;
-	private Text playTxt;
-	private Text loadTxt;
-	private Text settingsTxt;
-	private Text quitTxt;
+	private Text title, playTxt, settingsTxt, quitTxt, loadTxt;
 
-	private Rectangle play;
-	private Rectangle quit;
-	private Rectangle settings;
-	private Rectangle load;
+	private Rectangle play, quit, settings, load;
 	private Scene scene;
 	
 	public Menu() {
