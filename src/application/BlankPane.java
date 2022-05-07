@@ -8,6 +8,10 @@ public class BlankPane extends BorderPane {
 
 	protected Pane gameCanvas;
 	protected Scene scene;
+    Pane cover1;
+    Pane cover2;
+    Pane cover3;
+    Pane cover4;
 
 	public BlankPane(Scene scene) {
         gameCanvas = new Pane();

@@ -17,7 +17,7 @@ public class Main extends Application
     {
     	Menu rootPane = new Menu();
         rootPane.setPrefSize(WINSIZE_X, WINSIZE_Y);
-        Scene scene = new Scene(rootPane, WINSIZE_X, WINSIZE_Y, Color.BLACK);
+        Scene scene = new Scene(rootPane, WINSIZE_X, WINSIZE_Y, new Color(.15, .15, .15, 1));
         stage.setTitle(WINTITLE);
         stage.setScene(scene);
         rootPane.menuScene(scene);
