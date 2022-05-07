@@ -8,10 +8,8 @@ public class BlankPane extends BorderPane {
 
 	protected Pane gameCanvas;
 	protected Scene scene;
-    Pane cover1;
-    Pane cover2;
-    Pane cover3;
-    Pane cover4;
+	private final double gameHeight = 600;
+	private final double gameWidth = 800;
 
 	public BlankPane(Scene scene) {
         gameCanvas = new Pane();
@@ -20,13 +18,21 @@ public class BlankPane extends BorderPane {
         //set background colors
         gameCanvas.setStyle("-fx-background-color: #000000;");
         
-        gameCanvas.setMaxHeight(600);
-        gameCanvas.setMaxWidth(800);
-        gameCanvas.setMinHeight(600);
-        gameCanvas.setMinWidth(800);
+        gameCanvas.setMaxHeight(gameHeight);
+        gameCanvas.setMaxWidth(gameWidth);
+        gameCanvas.setMinHeight(gameHeight);
+        gameCanvas.setMinWidth(gameWidth);
         
         this.setCenter(gameCanvas);
     }
+
+	public double getGameHeight() {
+		return this.gameHeight;
+	}
+	
+	public double getGameWidth() {
+		return this.gameWidth;
+	}
 	
 	public void setGameCanvas(Pane pane) {
 		gameCanvas = pane;

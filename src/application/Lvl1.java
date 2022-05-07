@@ -20,6 +20,7 @@ public class Lvl1 extends BlankPane{
 	private boolean A, D = false;
 	private double nextPlatformL, nextPlatformR; 
 	private ArrayList<Rectangle> platforms; 
+	private boolean abovePlat = false; 
 	
 	
 	
@@ -35,6 +36,9 @@ public class Lvl1 extends BlankPane{
 		this.p.setOnMouseEntered(new mouseHandler());
 		this.p.setOnMouseExited(new mouseHandler());
 		
+		Rectangle bottomCover = new Rectangle(0,this.getGameHeight(),this.getGameWidth(),p.getHeight()+100);
+		bottomCover.setFill(new Color(.15, .15, .15, 1));
+		
 		Rectangle plat1 = new Rectangle(10, 550, 300, 10);
 		plat1.setFill(Color.WHITE);
 		this.platforms.add(plat1);
@@ -42,7 +46,7 @@ public class Lvl1 extends BlankPane{
 		scene.addEventHandler(KeyEvent.ANY, new keyHandler());
 		
 		super.gameCanvas.setStyle("-fx-background-color: #000000");
-		super.gameCanvas.getChildren().addAll(p, plat1);
+		super.gameCanvas.getChildren().addAll(p, plat1, bottomCover);
 
 		nextPlatformL = this.calcPlatform(p.getX(), p.getY() + p.getHeight());
 		nextPlatformR = this.calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
@@ -51,12 +55,12 @@ public class Lvl1 extends BlankPane{
 
 	//this works for rectangles only
 	private double calcPlatform(double x, double y) {
-		double max = p.getHeight() + gameCanvas.getMaxHeight();
-		for(Rectangle rect : platforms) {
-			if(x > rect.getX() && x < rect.getX() + rect.getWidth()) {
-				max = max > rect.getY() ? rect.getY() - p.getHeight() : max;
-			}
-		}
+		double max = this.getGameHeight();
+//		for(Rectangle rect : platforms) {
+//			if(x > rect.getX() && x < rect.getX() + rect.getWidth()) {
+//				max = max > rect.getY() ? rect.getY() - p.getHeight() : max;
+//			}
+//		}
 		return max;
 	}
 	
@@ -82,17 +86,16 @@ public class Lvl1 extends BlankPane{
 			p.setY(p.getY() + yVel);
 			
 			//something wrong here
-			if(yVel >= 0) {
-				nextPlatformL = calcPlatform(p.getX(), p.getY() + p.getHeight());
-				nextPlatformR = calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
-			}
+//			if(yVel >= 0) {
+//				nextPlatformL = calcPlatform(p.getX(), p.getY() + p.getHeight());
+//				nextPlatformR = calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
+//			}
 			
 			double nextPlat = nextPlatformL < nextPlatformR ? nextPlatformL : nextPlatformR;
 			
-			//it keeps teleporting, idk why?
 			if(p.getY() > nextPlat) {
 				jumps = 0;
-				yVel = 0;
+//				yVel = 0;
 				p.setY(nextPlat);
 				KAnimations.stop();
 			}
