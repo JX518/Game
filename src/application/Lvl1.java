@@ -34,9 +34,12 @@ public class Lvl1 extends BlankPane{
 		this.p.setFill(Color.WHITE);
 		this.p.setOnMouseEntered(new mouseHandler());
 		this.p.setOnMouseExited(new mouseHandler());
-		
+
 		Rectangle bottomCover = new Rectangle(0,this.getGameHeight(),this.getGameWidth(),p.getHeight()+100);
 		bottomCover.setFill(new Color(.15, .15, .15, 1));
+		
+		Rectangle topCover = new Rectangle(0,(-1)*(p.getHeight()+100),this.getGameWidth(),p.getHeight()+100);
+		topCover.setFill(new Color(.15, .15, .15, 1));
 
 		Rectangle plat1 = new Rectangle(10, 550, 300, 10);
 		plat1.setFill(Color.WHITE);
@@ -53,7 +56,7 @@ public class Lvl1 extends BlankPane{
 		scene.addEventHandler(KeyEvent.ANY, new keyHandler());
 		
 		super.gameCanvas.setStyle("-fx-background-color: #000000");
-		super.gameCanvas.getChildren().addAll(p, plat1, plat2, plat3, bottomCover);
+		super.gameCanvas.getChildren().addAll(p, plat1, plat2, plat3, bottomCover, topCover);
 
 		nextPlatformL = this.calcPlatform(p.getX(), p.getY() + p.getHeight());
 		nextPlatformR = this.calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
