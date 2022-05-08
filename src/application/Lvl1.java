@@ -140,13 +140,19 @@ public class Lvl1 extends BlankPane{
 	private class keyHandler implements EventHandler<KeyEvent>{
 		@Override
 		public void handle(KeyEvent event) {
-			boolean onGround = (p.getY() == calcPlatform(p.getX(), p.getY() + p.getHeight()) ||
-					p.getY() + p.getHeight() == calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight()));
+			boolean onGround = 
+					(p.getY() - 10 <= calcPlatform(p.getX(), p.getY() + p.getHeight())
+					&& p.getY() + 10 >= calcPlatform(p.getX(), p.getY() + p.getHeight())) || 
+					(p.getY() + 10 >= calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight())
+					&& p.getY() - 10 <= calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight()));
+			
+			System.out.println(p.getY() + p.getHeight() - 10 + " " + calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight()));
 			if(event.getCode() == KeyCode.K && event.getEventType() == KeyEvent.KEY_PRESSED) {
 				if(jump2 && (!jump1 || !onGround)) {
 					jump2 = false;
 					yVel = -13.5;
 					KAnimations.start();
+					
 				}
 				
 				if(jump1 && onGround) {
