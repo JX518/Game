@@ -15,12 +15,12 @@ public class Lvl1 extends BlankPane{
 	private Player p;
 	private AnimationTimer ADAnimations, KAnimations;
 	private double yVel, xVel = 0;
-	private int jumps;
+	private boolean jump1, jump2 = true;
 	private final double yAcc = .6;
 	private boolean A, D = false;
 	private double nextPlatformL, nextPlatformR; 
 	private ArrayList<Rectangle> platforms; 
-	private boolean abovePlat = false; 
+	private int jumps = 0;
 	
 	
 	
@@ -38,15 +38,23 @@ public class Lvl1 extends BlankPane{
 		
 		Rectangle bottomCover = new Rectangle(0,this.getGameHeight(),this.getGameWidth(),p.getHeight()+100);
 		bottomCover.setFill(new Color(.15, .15, .15, 1));
-		
+
 		Rectangle plat1 = new Rectangle(10, 550, 300, 10);
 		plat1.setFill(Color.WHITE);
 		this.platforms.add(plat1);
+
+		Rectangle plat2 = new Rectangle(500, 550, 300, 10);
+		plat2.setFill(Color.WHITE);
+		this.platforms.add(plat2);
+
+		Rectangle plat3 = new Rectangle(250, 300, 300, 10);
+		plat3.setFill(Color.WHITE);
+		this.platforms.add(plat3);
 		
 		scene.addEventHandler(KeyEvent.ANY, new keyHandler());
 		
 		super.gameCanvas.setStyle("-fx-background-color: #000000");
-		super.gameCanvas.getChildren().addAll(p, plat1, bottomCover);
+		super.gameCanvas.getChildren().addAll(p, plat1, plat2, plat3, bottomCover);
 
 		nextPlatformL = this.calcPlatform(p.getX(), p.getY() + p.getHeight());
 		nextPlatformR = this.calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
@@ -55,25 +63,37 @@ public class Lvl1 extends BlankPane{
 
 	//this works for rectangles only
 	private double calcPlatform(double x, double y) {
-		double max = this.getGameHeight();
-//		for(Rectangle rect : platforms) {
-//			if(x > rect.getX() && x < rect.getX() + rect.getWidth()) {
-//				max = max > rect.getY() ? rect.getY() - p.getHeight() : max;
-//			}
-//		}
-		return max;
+		double min = this.getGameHeight();
+		for(Rectangle rect : platforms) {
+			if(x >= rect.getX() && x <= rect.getX() + rect.getWidth() && y <= rect.getY() + yVel) {
+				min = rect.getY() <= min ? rect.getY() - p.getHeight() : min;
+			}
+		}
+		return min;
 	}
 	
 	private class LeftRight extends AnimationTimer{
 		@Override
 		public void handle(long now) {
 			// TODO Auto-generated method stub
+			nextPlatformL = calcPlatform(p.getX(), p.getY() + p.getHeight());
+			nextPlatformR = calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
+			
+			//left
 			if(p.getX() > 0 && xVel < 0) {
 				p.setX(p.getX() + xVel);
+				if(nextPlatformR > p.getY()) {
+					KAnimations.start();
+				}
 			}
 
+			//right
 			if(p.getX() < (gameCanvas.getMaxWidth() - p.getWidth()) && xVel > 0) {
 				p.setX(p.getX() + xVel);
+				System.out.println(nextPlatformL +" "+ p.getY() +" "+ p.getHeight());
+				if(nextPlatformL > p.getY() + p.getHeight()) {
+					KAnimations.start();
+				}
 			}
 		}
 	}	
@@ -81,24 +101,23 @@ public class Lvl1 extends BlankPane{
 	private class UpDown extends AnimationTimer{
 		@Override
 		public void handle(long now) {
+			double nextPlat = -100;
 			// TODO Auto-generated method stub
 			yVel = yVel + yAcc;
 			p.setY(p.getY() + yVel);
 			
-			//something wrong here
-//			if(yVel >= 0) {
-//				nextPlatformL = calcPlatform(p.getX(), p.getY() + p.getHeight());
-//				nextPlatformR = calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
-//			}
+			nextPlatformL = calcPlatform(p.getX(), p.getY() + p.getHeight());
+			nextPlatformR = calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
 			
-			double nextPlat = nextPlatformL < nextPlatformR ? nextPlatformL : nextPlatformR;
+			nextPlat = nextPlatformL < nextPlatformR ? nextPlatformL : nextPlatformR;
 			
 			if(p.getY() > nextPlat) {
 				jumps = 0;
-//				yVel = 0;
+				yVel = 0;
 				p.setY(nextPlat);
 				KAnimations.stop();
 			}
+			
 		}
 	}
 	
