@@ -20,7 +20,6 @@ public class Lvl1 extends BlankPane{
 	private boolean A, D = false;
 	private double nextPlatformL, nextPlatformR; 
 	private ArrayList<Rectangle> platforms; 
-	private int jumps = 0;
 	
 	
 	
@@ -90,7 +89,6 @@ public class Lvl1 extends BlankPane{
 			//right
 			if(p.getX() < (gameCanvas.getMaxWidth() - p.getWidth()) && xVel > 0) {
 				p.setX(p.getX() + xVel);
-				System.out.println(nextPlatformL +" "+ p.getY() +" "+ p.getHeight());
 				if(nextPlatformL > p.getY() + p.getHeight()) {
 					KAnimations.start();
 				}
@@ -112,9 +110,10 @@ public class Lvl1 extends BlankPane{
 			nextPlat = nextPlatformL < nextPlatformR ? nextPlatformL : nextPlatformR;
 			
 			if(p.getY() > nextPlat) {
-				jumps = 0;
 				yVel = 0;
 				p.setY(nextPlat);
+				jump1 = true;
+				jump2 = true;
 				KAnimations.stop();
 			}
 			
@@ -137,9 +136,17 @@ public class Lvl1 extends BlankPane{
 	private class keyHandler implements EventHandler<KeyEvent>{
 		@Override
 		public void handle(KeyEvent event) {
+			boolean onGround = (p.getY() == calcPlatform(p.getX(), p.getY() + p.getHeight()) ||
+					p.getY() + p.getHeight() == calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight()));
 			if(event.getCode() == KeyCode.K && event.getEventType() == KeyEvent.KEY_PRESSED) {
-				if(jumps < 2) {
-					jumps = jumps + 1;
+				if(jump2 && (!jump1 || !onGround)) {
+					jump2 = false;
+					yVel = -13.5;
+					KAnimations.start();
+				}
+				
+				if(jump1 && onGround) {
+					jump1 = false;
 					yVel = -13.5;
 					KAnimations.start();
 				}
