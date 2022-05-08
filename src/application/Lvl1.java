@@ -18,6 +18,7 @@ public class Lvl1 extends BlankPane{
 	private boolean jump1, jump2 = true;
 	private final double yAcc = .6;
 	private boolean A, D = false;
+	double lastDEvent, lastAEvent;
 	private double nextPlatformL, nextPlatformR; 
 	private ArrayList<Rectangle> platforms; 
 	
@@ -175,13 +176,23 @@ public class Lvl1 extends BlankPane{
 			// TODO Auto-generated method stub
 			if(event.getCode() == KeyCode.D && event.getEventType() == KeyEvent.KEY_PRESSED) {
 				D = true;
-				xVel = 5;
+				if(System.currentTimeMillis() - 1000 < lastDEvent && System.currentTimeMillis() - 100 > lastDEvent) {
+					xVel = 7;
+				} else {
+					xVel = 3;
+				}
+				lastDEvent = System.currentTimeMillis();
 				ADAnimations.start();
 			}
 			
 			if(event.getCode() == KeyCode.A && event.getEventType() == KeyEvent.KEY_PRESSED) {
 				A = true;
-				xVel = -5;
+				if(System.currentTimeMillis() - 1000 < lastAEvent && System.currentTimeMillis() - 100 > lastAEvent) {
+					xVel = -7;
+				} else {
+					xVel = -3;
+				}
+				lastAEvent = System.currentTimeMillis();
 				ADAnimations.start();
 			}
 		}
