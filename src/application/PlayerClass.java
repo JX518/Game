@@ -5,7 +5,12 @@ public class PlayerClass {
 	public PlayerClass(String pclass){
 		this.pclass = pclass;
 	}
-
+	
+	//knight - helm (plate)
+	//mage - cloak (cloth)
+	//fighter - ?
+	//something - ?
+	
 	public void getAtk() {}
 	public void getSkill1() {}
 	public void getSkll1() {}
