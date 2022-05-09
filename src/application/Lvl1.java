@@ -146,7 +146,6 @@ public class Lvl1 extends BlankPane{
 					(p.getY() + 10 >= calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight())
 					&& p.getY() - 10 <= calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight()));
 			
-			System.out.println(p.getY() + p.getHeight() - 10 + " " + calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight()));
 			if(event.getCode() == KeyCode.K && event.getEventType() == KeyEvent.KEY_PRESSED) {
 				if(jump2 && (!jump1 || !onGround)) {
 					jump2 = false;

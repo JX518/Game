@@ -36,7 +36,6 @@ public class Player extends Rectangle{
 		
 		for(int i = 0; i < 8; i++) {
 			if(!inventory[i].getName().equals("")) {
-				System.out.print(inventory +" "+ i);
 				this.calculatedStats[0] = this.calculatedStats[0] + inventory[i].getHP();
 				this.calculatedStats[1] = this.calculatedStats[1] + inventory[i].getMP();
 				this.calculatedStats[2] = this.calculatedStats[2] + inventory[i].getAtk();
