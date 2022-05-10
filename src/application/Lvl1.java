@@ -7,12 +7,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class Lvl1 extends BlankPane{	
-	private Player p;
+	private Player player;
+	private Text pText;
 	private AnimationTimer ADAnimations, KAnimations;
 	private double yVel, xVel = 0;
 	private boolean jump1, jump2 = true;
@@ -20,26 +21,27 @@ public class Lvl1 extends BlankPane{
 	private boolean A, D = false;
 	double lastDEvent, lastAEvent;
 	private double nextPlatformL, nextPlatformR; 
-	private ArrayList<Rectangle> platforms; 
-	
-	
+	private ArrayList<Rectangle> platforms;
+	private ArrayList<Enemy> enemiesW1;
 	
 	public Lvl1(Scene scene) {
 		super(scene);
 		this.platforms = new ArrayList<Rectangle>();
-		this.p = new Player(new PlayerClass(null));
+		this.player = new Player(new PlayerClass(null));
 		this.ADAnimations = new LeftRight();
 		this.KAnimations = new UpDown();
-		this.p.setX(100);
-		this.p.setY(100);
-		this.p.setFill(Color.WHITE);
-		this.p.setOnMouseEntered(new mouseHandler());
-		this.p.setOnMouseExited(new mouseHandler());
-
-		Rectangle bottomCover = new Rectangle(0,this.getGameHeight(),this.getGameWidth(),p.getHeight()+100);
+		this.player.setX(100);
+		this.player.setY(100);
+		this.player.setFill(Color.WHITE);
+		pText = new Text("player");
+		pText.setFill(Color.BLUE);
+		pText.setX(player.getX() + player.getWidth()/4);
+		pText.setY(player.getY() + player.getHeight()/2);
+		
+		Rectangle bottomCover = new Rectangle(0,this.getGameHeight(),this.getGameWidth(),player.getHeight()+100);
 		bottomCover.setFill(new Color(.15, .15, .15, 1));
 		
-		Rectangle topCover = new Rectangle(0,(-1)*(p.getHeight()+100),this.getGameWidth(),p.getHeight()+100);
+		Rectangle topCover = new Rectangle(0,(-1)*(player.getHeight()+100),this.getGameWidth(),player.getHeight()+100);
 		topCover.setFill(new Color(.15, .15, .15, 1));
 
 		Rectangle plat1 = new Rectangle(10, 550, 300, 10);
@@ -57,19 +59,24 @@ public class Lvl1 extends BlankPane{
 		scene.addEventHandler(KeyEvent.ANY, new keyHandler());
 		
 		super.gameCanvas.setStyle("-fx-background-color: #000000");
-		super.gameCanvas.getChildren().addAll(p, plat1, plat2, plat3, bottomCover, topCover);
+		super.gameCanvas.getChildren().addAll(plat1, plat2, plat3);
+		super.gameCanvas.getChildren().addAll(player, pText);
+		super.gameCanvas.getChildren().addAll( bottomCover, topCover);
 
-		nextPlatformL = this.calcPlatform(p.getX(), p.getY() + p.getHeight());
-		nextPlatformR = this.calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
+		nextPlatformL = this.calcPlatform(player.getX(), player.getY() + player.getHeight());
+		nextPlatformR = this.calcPlatform(player.getX() + player.getWidth(), player.getY() + player.getHeight());
 		KAnimations.start();
 	}
 
+	private void startWave1() {
+		
+	}
 	//this works for rectangles only
 	private double calcPlatform(double x, double y) {
 		double min = this.getGameHeight();
 		for(Rectangle rect : platforms) {
 			if(x >= rect.getX() && x <= rect.getX() + rect.getWidth() && y <= rect.getY() + yVel) {
-				min = rect.getY() <= min ? rect.getY() - p.getHeight() : min;
+				min = rect.getY() <= min ? rect.getY() - player.getHeight() : min;
 			}
 		}
 		return min;
@@ -79,21 +86,23 @@ public class Lvl1 extends BlankPane{
 		@Override
 		public void handle(long now) {
 			// TODO Auto-generated method stub
-			nextPlatformL = calcPlatform(p.getX(), p.getY() + p.getHeight());
-			nextPlatformR = calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
+			nextPlatformL = calcPlatform(player.getX(), player.getY() + player.getHeight());
+			nextPlatformR = calcPlatform(player.getX() + player.getWidth(), player.getY() + player.getHeight());
 			
 			//left
-			if(p.getX() > 0 && xVel < 0) {
-				p.setX(p.getX() + xVel);
-				if(nextPlatformR > p.getY()) {
+			if(player.getX() > 0 && xVel < 0) {
+				player.setX(player.getX() + xVel);
+				pText.setX(player.getX() + player.getWidth()/4);
+				if(nextPlatformR > player.getY()) {
 					KAnimations.start();
 				}
 			}
 
 			//right
-			if(p.getX() < (gameCanvas.getMaxWidth() - p.getWidth()) && xVel > 0) {
-				p.setX(p.getX() + xVel);
-				if(nextPlatformL > p.getY() + p.getHeight()) {
+			if(player.getX() < (gameCanvas.getMaxWidth() - player.getWidth()) && xVel > 0) {
+				player.setX(player.getX() + xVel);
+				pText.setX(player.getX() + player.getWidth()/4);
+				if(nextPlatformL > player.getY() + player.getHeight()) {
 					KAnimations.start();
 				}
 			}
@@ -106,34 +115,24 @@ public class Lvl1 extends BlankPane{
 			double nextPlat = -100;
 			// TODO Auto-generated method stub
 			yVel = yVel + yAcc;
-			p.setY(p.getY() + yVel);
+			player.setY(player.getY() + yVel);
+			pText.setY(player.getY() + player.getHeight()/2);
 			
-			nextPlatformL = calcPlatform(p.getX(), p.getY() + p.getHeight());
-			nextPlatformR = calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight());
+			nextPlatformL = calcPlatform(player.getX(), player.getY() + player.getHeight());
+			nextPlatformR = calcPlatform(player.getX() + player.getWidth(), player.getY() + player.getHeight());
 			
 			nextPlat = nextPlatformL < nextPlatformR ? nextPlatformL : nextPlatformR;
 			
-			if(p.getY() > nextPlat) {
+			if(player.getY() > nextPlat) {
 				yVel = 0;
-				p.setY(nextPlat);
+				player.setY(nextPlat);
+				pText.setY(player.getY() + player.getHeight()/2);
 				jump1 = true;
 				jump2 = true;
 				KAnimations.stop();
+				startWave1();
 			}
 			
-		}
-	}
-	
-	private class mouseHandler implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent event) {
-			// TODO Auto-generated method stub
-			if(event.getEventType() == MouseEvent.MOUSE_ENTERED) {
-				p.setFill(Color.FIREBRICK);
-			}
-			if(event.getEventType() == MouseEvent.MOUSE_EXITED) {
-				p.setFill(Color.WHITE);
-			}
 		}
 	}
 	
@@ -141,10 +140,10 @@ public class Lvl1 extends BlankPane{
 		@Override
 		public void handle(KeyEvent event) {
 			boolean onGround = 
-					(p.getY() - 10 <= calcPlatform(p.getX(), p.getY() + p.getHeight())
-					&& p.getY() + 10 >= calcPlatform(p.getX(), p.getY() + p.getHeight())) || 
-					(p.getY() + 10 >= calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight())
-					&& p.getY() - 10 <= calcPlatform(p.getX() + p.getWidth(), p.getY() + p.getHeight()));
+					(player.getY() - 10 <= calcPlatform(player.getX(), player.getY() + player.getHeight())
+					&& player.getY() + 10 >= calcPlatform(player.getX(), player.getY() + player.getHeight())) || 
+					(player.getY() + 10 >= calcPlatform(player.getX() + player.getWidth(), player.getY() + player.getHeight())
+					&& player.getY() - 10 <= calcPlatform(player.getX() + player.getWidth(), player.getY() + player.getHeight()));
 			
 			if(event.getCode() == KeyCode.K && event.getEventType() == KeyEvent.KEY_PRESSED) {
 				if(jump2 && (!jump1 || !onGround)) {
@@ -177,7 +176,6 @@ public class Lvl1 extends BlankPane{
 				}
 			}
 			
-			p.setFill(Color.GREEN);
 			// TODO Auto-generated method stub
 			if(event.getCode() == KeyCode.D && event.getEventType() == KeyEvent.KEY_PRESSED) {
 				D = true;
